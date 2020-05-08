@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.img" @load="imgLoad" />
+  <div class="goods-item" @click="itemClick">
+    <img :src="imagesrc" @load="imgLoad" />
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <div>
@@ -29,6 +29,14 @@
     methods: {
       imgLoad () {
         this.$buds.$emit('imgloaddown');
+      },
+      itemClick () {
+        this.$router.push('/detail/'+this.goodsItem.iid)
+      }
+    },
+    computed: {
+      imagesrc () {
+        return this.goodsItem.img ? this.goodsItem.img : this.goodsItem.image;
       }
     }
   }

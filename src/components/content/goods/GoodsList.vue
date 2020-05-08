@@ -1,6 +1,6 @@
 <template>
-  <div class="goods">
-      <goods-list-item class="goods-list-item" v-for="(item, index) in goods" :goodsItem="item" :key="index"></goods-list-item>
+  <div class="goods" :style="{backgroundColor: bgcolor}">
+      <goods-list-item class="goods-list-item"  v-for="(item, index) in goods" :goodsItem="item" :key="index"></goods-list-item>
   </div>
 </template>
 
@@ -15,6 +15,10 @@
         default () {
           return []
         }
+      },
+      bgcolor: {
+        type: String,
+        default: '#EFEFEF'
       }
     },
     components: {
@@ -27,8 +31,8 @@
   .goods {
     display: flex;
     flex-wrap:wrap;
-    justify-content: space-around;
-    padding: 15px 3px 3px;
+    justify-content: space-between;
+    padding: 15px 15px 3px;
     background-color: #EFEFEF;
   }
 

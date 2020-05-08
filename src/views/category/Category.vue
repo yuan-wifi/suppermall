@@ -1,55 +1,194 @@
 <template>
-  <div class="wrapper">
-    <ul class="content">
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-    <li>ssss</li>
-  </ul>
+  <div class="category">
+    <scroll class="content c-category">
+      <category-detail ref="ccategory"
+                       :categoryData="categoryData"
+                       @categoryClick="categoryClick">
+      </category-detail>
+    </scroll>
+    <div class="c-details">
+      <tab-control class="tab-control tabFixed" style="z-index:10;" v-show="isTabFixed" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl2"></tab-control>
+      <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll">
+        <category-cate :itemCategory="currentCategory" @imageLoad="imgLoad"></category-cate>
+        <tab-control class="tab-control" v-if="showGoods.length > 0" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl"></tab-control>
+        <goods-list :goods="showGoods" ref="goods" v-if="showGoods.length > 0" bgcolor="#fff"></goods-list>
+      </scroll>
+    </div>
   </div>
 </template>
 
 <script>
+  import CategoryDetail from './childComps/CategoryDetail.vue'
+  import CategoryCate from'./childComps/CategoryCate.vue'
+  import Scroll from 'components/common/scroll/Scroll.vue'
+  import TabControl from 'components/content/tabControl/TabControl.vue'
+  import GoodsList from 'components/content/goods/GoodsList.vue'
+
+  import {getCategory, getItemCateData, getItemData} from 'network/category.js'
+  import { debounce } from 'common/utils.js'
+  import { imageMixin } from 'common/mixin.js'
 
   export default {
-    name: 'Category'
+    name: 'Category',
+    mixins: [imageMixin],
+    data() {
+      return {
+        categoryData: [],
+        itemdataCate: {
+          0: []
+        },
+        item: {
+          0: {
+            'pop': { page: 0, list:[] },
+            'new': { page: 0, list:[] },
+            'sell': { page: 0, list:[] },
+          }
+        },
+        currentType: 'pop',
+        isTabFixed: false,
+        tabOffsetTop: 0,
+        currentKey: 0
+      }
+    },
+    components: {
+      CategoryDetail,
+      CategoryCate,
+      Scroll,
+      TabControl,
+      GoodsList
+    },
+    created() {
+      // 获取分类数据
+      getCategory().then((data) => {
+        this.categoryData = data.list;
+
+        this.$nextTick(function(){
+          let key = this.categoryData[0]['maitKey'];
+          // 点击第一个分类
+          this.$refs.ccategory.checkItem(0, key);
+        });
+      })
+    },
+    deactivated() {
+      this.$buds.$off("imgloaddown",this.scrollItemListener);
+    },
+    computed:{
+      showGoods() {
+        return this.item[this.currentKey][this.currentType].list;
+      },
+      currentCategory() {
+        return this.itemdataCate[this.currentKey];
+      }
+    },
+    methods: {
+      /**
+       * 网络请求相关
+       */
+
+      // 获取分类子项分类数据
+      getItemCateDataMain(key) {
+        if(!this.itemdataCate.hasOwnProperty(key)) {
+          this.$set(this.itemdataCate, key, []);
+        }
+        getItemCateData(key).then((data) => {
+          if(Object.keys(data).length > 0) {
+            this.itemdataCate[key].push(...data.list);
+          }
+        })
+      },
+      // 获取分类子项推荐数据
+      getItemDataMain(key, type) {
+        if(!this.item.hasOwnProperty(key)) {
+          let start = {
+            'pop': { page: 0, list:[] },
+            'new': { page: 0, list:[] },
+            'sell': { page: 0, list:[] },
+          }
+          this.$set(this.item, key, start)
+        }
+        const page = this.item[key][type].page + 1;
+        getItemData(key, page, type).then((data) => {
+          // 获取数据
+          if(Object.keys(data).length > 0) {
+            this.item[key][type].list.push(...data.result.wall.docs);
+            this.item[key][type].page = page;
+          }
+        })
+      },
+
+      /**
+       * 事件监听相关代码
+       */
+      // 类别切换事件
+      categoryClick (key) {
+        this.currentKey = key;
+        if(!this.item.hasOwnProperty(key)) {
+          this.getItemCateDataMain(key)
+          this.getItemDataMain(key, 'pop');
+          this.getItemDataMain(key, 'sell');
+          this.getItemDataMain(key, 'new');
+        }
+        this.$refs.scroll.scrollTo(0, 0, 200);
+      },
+
+      // 获取子组件TabControl传来的index类别
+      getGoods (index) {
+        if(this.showGoods.length > 0) {
+          let type = 'pop';
+          if (parseInt(index) === 1) {
+            type = 'new';
+          } else
+          if (parseInt(index) === 2) {
+            type = 'sell';
+          }
+          this.currentType = type;
+          this.$refs.tabControl.currentIndex = index;
+          this.$refs.tabControl2.currentIndex = index;
+        }
+      },
+      // 监听滚动位置
+      contentScroll (position) {
+        // tabcontrol是否置顶
+        this.isTabFixed = -position.y > this.tabOffsetTop;
+      },
+      // 分类图片加载完毕
+      imgLoad() {
+        let that = this;
+        debounce(function() {
+          that.$refs.scroll.refresh;
+          that.tabOffsetTop = that.$refs.tabControl.$el.offsetTop;
+        }, 200)();
+        this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
+      },
+    }
   }
 </script>
 
 <style scoped>
-  .wrapper {
-    height: 150px;
-    background-color: red;
-    overflow-y: hidden;
+  .category {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 49px);
+  }
+
+  .content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .c-category {
+    flex: 0 0 100px;
+  }
+
+  .c-details {
+    flex: 1;
+    position: relative;
+  }
+
+  .tabFixed {
+    position: absolute;
+    top: 0 ;
+    left: 0;
+    bottom: 0;
   }
 </style>

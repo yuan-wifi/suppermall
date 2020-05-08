@@ -28,6 +28,7 @@
 
   import { getHomeMultidata, getHomeGoods } from 'network/home.js'
   import { debounce } from 'common/utils.js'
+  import { imageMixin } from 'common/mixin.js'
 
   export default {
     name: 'Home',
@@ -72,19 +73,22 @@
       this.getHomeGoods('sell')
     },
     mounted() {
-      let refresh = debounce(this.$refs.scroll.refresh, 500);
-      this.$buds.$on("imgloaddown", () => {
+/*      let refresh = debounce(this.$refs.scroll.refresh, 500);
+
+      this.scrollItemListener = () => {
         //刷新scroll的高度
         refresh();
-      });
+      }
+      this.$buds.$on("imgloaddown", this.scrollItemListener ); */
     },
+    mixins: [imageMixin],
     activated() {
       this.$refs.scroll.refresh();
       this.$refs.scroll.scrollTo(0, this.saveY, 0);
-      console.log(this.saveY)
     },
     deactivated() {
       this.saveY = this.$refs.scroll.scroll.y;
+      this.$buds.$off("imgloaddown",this.scrollItemListener);
     },
     methods: {
       /**
@@ -125,11 +129,9 @@
         this.currentType = type;
         this.$refs.tabControl.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
-        console.log(this.$refs.tabControl.currentIndex)
       },
       // 回到顶部的事件
       backClick () {
-        console.log(this.$refs.scroll.scroll.scrollTo)
         this.$refs.scroll.scrollTo(0,0,500);
       },
       // 监听滚动位置
