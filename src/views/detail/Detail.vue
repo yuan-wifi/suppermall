@@ -152,8 +152,6 @@
           }
         })
 
-        // tabcontrol是否置顶
-        this.isTabFixed = -position.y > this.tabOffsetTop ;
       },
 
       // 加入购物车

@@ -1,5 +1,6 @@
 import { debounce } from './utils.js'
 import BackTop from 'components/content/backTop/BackTop.vue'
+import TabControl from 'components/content/tabControl/TabControl.vue'
 
 export const imageMixin = {
   data() {
@@ -35,6 +36,23 @@ export const backTopMixin = {
     // 控制图标的显示隐藏
     showBackTop (position) {
       this.isShowBackTop = position.y < -1000 ? true : false;      
+    }
+  }
+}
+
+export const tabControlMixin = {
+  data () {
+    return {
+      isTabFixed: false,
+      tabOffsetTop: 0,
+    }
+  },
+  components: {
+    TabControl
+  },
+  methods: {
+    fixedTab(position) {
+      this.isTabFixed = -position.y > this.tabOffsetTop;
     }
   }
 }

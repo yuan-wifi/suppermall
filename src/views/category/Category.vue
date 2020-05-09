@@ -7,10 +7,10 @@
       </category-detail>
     </scroll>
     <div class="c-details">
-      <tab-control class="tab-control tabFixed" style="z-index:10;" v-show="isTabFixed" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl2"></tab-control>
+      <tab-control class="tab-control1 tabFixed" style="z-index:10;" v-show="isTabFixed" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl2"></tab-control>
       <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll">
         <category-cate :itemCategory="currentCategory" @imageLoad="imgLoad"></category-cate>
-        <tab-control class="tab-control" v-if="showGoods.length > 0" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl"></tab-control>
+        <tab-control class="tab-control1" v-if="showGoods.length > 0" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl"></tab-control>
         <goods-list :goods="showGoods" ref="goods" v-if="showGoods.length > 0" bgcolor="#fff"></goods-list>
       </scroll>
     </div>
@@ -24,13 +24,12 @@
   import TabControl from 'components/content/tabControl/TabControl.vue'
   import GoodsList from 'components/content/goods/GoodsList.vue'
 
-  import {getCategory, getItemCateData, getItemData} from 'network/category.js'
+  import { getCategory, getItemCateData, getItemData } from 'network/category.js'
   import { debounce } from 'common/utils.js'
-  import { imageMixin } from 'common/mixin.js'
+  import { imageMixin, tabControlMixin } from 'common/mixin.js'
 
   export default {
     name: 'Category',
-    mixins: [imageMixin],
     data() {
       return {
         categoryData: [],
@@ -45,16 +44,14 @@
           }
         },
         currentType: 'pop',
-        isTabFixed: false,
-        tabOffsetTop: 0,
         currentKey: 0
       }
     },
+    mixins: [imageMixin, tabControlMixin],
     components: {
       CategoryDetail,
       CategoryCate,
       Scroll,
-      TabControl,
       GoodsList
     },
     created() {
@@ -70,6 +67,7 @@
       })
     },
     deactivated() {
+      // 关闭事件总线监听事件
       this.$buds.$off("imgloaddown",this.scrollItemListener);
     },
     computed:{
@@ -148,8 +146,8 @@
       },
       // 监听滚动位置
       contentScroll (position) {
-        // tabcontrol是否置顶
-        this.isTabFixed = -position.y > this.tabOffsetTop;
+        // tabcontrol是否置顶//this.isTabFixed = -position.y > this.tabOffsetTop;
+        this.fixedTab(position);
       },
       // 分类图片加载完毕
       imgLoad() {
@@ -158,7 +156,6 @@
           that.$refs.scroll.refresh;
           that.tabOffsetTop = that.$refs.tabControl.$el.offsetTop;
         }, 200)();
-        this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
       },
     }
   }
@@ -183,6 +180,10 @@
   .c-details {
     flex: 1;
     position: relative;
+  }
+
+  .tab-control1 {
+    padding: 0 12px 0 10px;
   }
 
   .tabFixed {

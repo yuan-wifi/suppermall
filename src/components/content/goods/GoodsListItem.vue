@@ -31,6 +31,7 @@
         this.$buds.$emit('imgloaddown');
       },
       itemClick () {
+        console.log('/detail/'+this.goodsItem.iid)
         this.$router.push('/detail/'+this.goodsItem.iid)
       }
     },
