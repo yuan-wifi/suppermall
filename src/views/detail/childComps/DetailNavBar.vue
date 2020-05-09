@@ -1,7 +1,7 @@
 <template>
   <div class="detail-nav-bar">
     <nav-bar>
-      <div slot="left" @click="backClick">
+      <div slot="left" @click="backClick" class="item">
         <img src="~assets/img/common/back.svg" class="back">
       </div>
       <div slot="center" class="nav-titles">
@@ -10,6 +10,9 @@
               :key="index"
               :class="{ active: index === currentIndex }"
               @click="itemClick(index)">{{item}}</span>
+      </div>
+      <div slot="right" @click="goCart" class="item">
+        <img src="~assets/img/profile/cart.png" class="cart">
       </div>
     </nav-bar>
   </div>
@@ -39,14 +42,31 @@
       // 返回上一个页面
       backClick () {
         this.$router.go(-1);
+      },
+      //进入购物车
+      goCart () {
+        console.log(this.$router)
+        this.$router.push('/cart');
       }
     }
   }
 </script>
 
 <style scoped>
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+  }
+
   .back {
-    margin-top: 11px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .cart {
+    width: 28px;
   }
 
   .nav-titles {

@@ -1,6 +1,9 @@
 <template>
   <div>
     <nav-bar class="title">
+      <div slot="left" @click="backClick" class="item">
+        <img src="~assets/img/common/back.svg" class="back">
+      </div>
       <div slot="center" >购物车({{length}})</div>
     </nav-bar>
     <cart-list></cart-list>
@@ -29,6 +32,12 @@
       ...mapGetters('cart',{
         length: 'cartLength'
       })
+    },
+    methods: {
+      // 返回上一个页面
+      backClick () {
+        this.$router.go(-1);
+      },
     }
   }
 </script>
@@ -37,5 +46,16 @@
   .title {
     background-color: var(--color-tint);
     color: #fff;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+  }
+
+  .back {
+    width: 22px;
+    height: 22px;
   }
 </style>
