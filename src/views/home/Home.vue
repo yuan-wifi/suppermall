@@ -183,8 +183,9 @@
   .content {
     width: 100%;
     position: absolute;
-    top: 44px;
-    bottom: 49px;
+    /* px-to-viewport-ignore-next */
+    top: 44px;/* px-to-viewport-ignore */
+    bottom: 49px; /* px-to-viewport-ignore */
     left: 0;
     right: 0;
     overflow: hidden;

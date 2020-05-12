@@ -44,7 +44,8 @@
           }
         },
         currentType: 'pop',
-        currentKey: 0
+        currentKey: 0,
+        saveY: 0
       }
     },
     mixins: [imageMixin, tabControlMixin],
@@ -66,8 +67,12 @@
         });
       })
     },
+    activated() {
+      this.$refs.scroll.refresh();
+      this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    },
     deactivated() {
-      // 关闭事件总线监听事件
+      this.saveY = this.$refs.scroll.scroll.y;
       this.$buds.$off("imgloaddown",this.scrollItemListener);
     },
     computed:{
@@ -165,11 +170,10 @@
   .category {
     display: flex;
     width: 100%;
-    height: calc(100vh - 49px);
   }
 
   .content {
-    height: 100%;
+    height: calc(100vh - 49px);
     overflow: hidden;
   }
 

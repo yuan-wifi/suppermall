@@ -11,7 +11,7 @@ module.exports = {
       }
     }
   },
-  css:{
+/*  css:{
     loaderOptions: {
       postcss: {
         plugins: [
@@ -30,5 +30,5 @@ module.exports = {
         ]
       }
     }
-  }
+  } */
 }

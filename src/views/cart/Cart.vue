@@ -1,8 +1,8 @@
 <template>
   <div>
     <nav-bar class="title">
-      <div slot="left" @click="backClick" class="item">
-        <img src="~assets/img/common/back.svg" class="back">
+      <div slot="left" @click="backClick" class="content-item">
+        <img src="~assets/img/common/back.svg" class="content">
       </div>
       <div slot="center" >购物车({{length}})</div>
     </nav-bar>
@@ -47,14 +47,14 @@
     background-color: var(--color-tint);
     color: #fff;
   }
-  .item {
+  .content-item {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 44px;
   }
 
-  .back {
+  .content {
     width: 22px;
     height: 22px;
   }

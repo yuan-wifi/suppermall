@@ -1,9 +1,13 @@
 <template>
-  <div class="profile">
-    <profile-top :userinfo="userinfo"></profile-top>
-    <div class="blockinfo" v-for="(item,index) in blockinfo" :key="index">
-      <detail-bar class="detail" v-if="parseInt(item.layoutType) === 0" :barinfo="item"></detail-bar>
-      <profile-cart v-else :barinfo="item"></profile-cart>
+  <div class="content-container">
+    <div class="content-inner-container">
+      <div class="profile content">
+        <profile-top :userinfo="userinfo"></profile-top>
+        <div class="blockinfo" v-for="(item,index) in blockinfo" :key="index">
+          <detail-bar class="detail" v-if="parseInt(item.layoutType) === 0" :barinfo="item"></detail-bar>
+          <profile-cart v-else :barinfo="item"></profile-cart>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,8 +44,29 @@
 </script>
 
 <style scoped>
+  .content-container, .content {
+  	width: 100%;
+  	height: calc(100vh - 49px);
+  }
+
+  .content-container {
+      position: relative;
+      overflow: hidden;
+  }
+  .content-inner-container {
+      position: absolute;
+      left: 0;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      background-color: #f6f6f6;
+  }
+
+   /* for Chrome */
+  .content-inner-container::-webkit-scrollbar {
+      display: none;
+  }
+
   .profile {
-    padding-bottom: 49px;
     background-color: #f6f6f6;
   }
 
