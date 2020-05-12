@@ -1,14 +1,12 @@
 <template>
-  <div class="content-container">
-    <div class="content-inner-container">
-      <div class="profile content">
+  <div class="profile ">
+    <scroll class="content">
         <profile-top :userinfo="userinfo"></profile-top>
         <div class="blockinfo" v-for="(item,index) in blockinfo" :key="index">
           <detail-bar class="detail" v-if="parseInt(item.layoutType) === 0" :barinfo="item"></detail-bar>
           <profile-cart v-else :barinfo="item"></profile-cart>
         </div>
-      </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
@@ -16,6 +14,7 @@
   import ProfileTop from './childComps/ProfileTop.vue'
   import ProfileCart from './childComps/ProfileCart.vue'
   import DetailBar from 'components/common/detailbar/DetailBar.vue'
+  import Scroll from 'components/common/scroll/Scroll.vue'
 
   import { getProfileInfo } from 'network/profile.js'
 
@@ -24,7 +23,8 @@
     components: {
       ProfileTop,
       ProfileCart,
-      DetailBar
+      DetailBar,
+      Scroll
     },
     data() {
       return {
@@ -44,30 +44,14 @@
 </script>
 
 <style scoped>
-  .content-container, .content {
-  	width: 100%;
-  	height: calc(100vh - 49px);
-  }
-
-  .content-container {
-      position: relative;
-      overflow: hidden;
-  }
-  .content-inner-container {
-      position: absolute;
-      left: 0;
-      overflow-x: hidden;
-      overflow-y: scroll;
-      background-color: #f6f6f6;
-  }
-
-   /* for Chrome */
-  .content-inner-container::-webkit-scrollbar {
-      display: none;
-  }
-
   .profile {
     background-color: #f6f6f6;
+    height: calc(100% - 49px);
+  }
+
+  .content {
+  	width: 100%;
+  	height: 100%;
   }
 
   .blockinfo {

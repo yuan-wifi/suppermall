@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cart">
     <nav-bar class="title">
       <div slot="left" @click="backClick" class="content-item">
         <img src="~assets/img/common/back.svg" class="content">
@@ -43,6 +43,10 @@
 </script>
 
 <style scoped>
+  .cart {
+    height: 100%;
+  }
+
   .title {
     background-color: var(--color-tint);
     color: #fff;

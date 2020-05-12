@@ -34,16 +34,21 @@
 
 <style scoped>
   .detail-bottom-bar {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     height: 49px;
     background-color: #fff;
     display: flex;
+    z-index: 101;
   }
 
   .bottom-bar {
     display: flex;
-    flex: 1;
     border-top: 1px solid #ededed;
+    flex: 1;
   }
 
   .icons {
@@ -51,10 +56,10 @@
   }
 
   .icons-item {
-    flex: 1;
     height: 48px;
     border-right: 1px solid #ededed;
     text-align: center;
+    flex: 1;
   }
 
   .icons-item-icon {

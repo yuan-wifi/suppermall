@@ -20,4 +20,8 @@ export default {
 
 <style>
 @import "assets/css/base.css";
+
+#app {
+  height: 100%;
+}
 </style>

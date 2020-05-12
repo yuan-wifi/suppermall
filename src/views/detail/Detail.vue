@@ -187,12 +187,16 @@
     position:relative;
     z-index: 100;
     background-color: #fff;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
   }
 
  .content {
-    position: relative;
-    height: calc(100% - 44px - 49px);
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 49px;
     overflow: hidden;
   }
 </style>

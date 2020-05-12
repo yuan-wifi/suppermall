@@ -29,8 +29,12 @@
 </script>
 
 <style scoped>
+  .cart-list {
+    height: calc(100% - 44px - 49px - 40px);
+  }
+  
   .content {
-    height: calc(100vh - 44px - 49px - 40px);
+    height: 100%;
     overflow: hidden;
   }
 </style>

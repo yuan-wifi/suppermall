@@ -161,7 +161,7 @@
 <style scoped>
   #home {
     position: relative;
-    height: 100vh;
+    height: 100%;
     width: 100%;
    /* padding: 44px 0 49px; */
   }
