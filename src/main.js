@@ -41,5 +41,4 @@ function getBrowserInterfaceSize() {
     }
 }
 
-document.querySelector('html').style.height = getBrowserInterfaceSize().pageHeight + 'px';
 document.querySelector('body').style.height = getBrowserInterfaceSize().pageHeight + 'px';

@@ -21,7 +21,10 @@ const getters = {
 
 const mutations = {
   addCounter(state, payload) {
-    payload.count++;
+    if(payload.count < 99)payload.count++;
+  },
+  reduceCounter(state, payload) {
+    if(payload.count > 1) payload.count--;
   },
   addToCart(state, payload) {
     payload.count = 1;

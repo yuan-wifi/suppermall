@@ -6,6 +6,7 @@
           <detail-bar class="detail" v-if="parseInt(item.layoutType) === 0" :barinfo="item"></detail-bar>
           <profile-cart v-else :barinfo="item"></profile-cart>
         </div>
+        <div class="bottom"></div>
     </scroll>
   </div>
 </template>
@@ -46,12 +47,13 @@
 <style scoped>
   .profile {
     background-color: #f6f6f6;
-    height: calc(100% - 49px);
+    height: 100%;
   }
 
   .content {
   	width: 100%;
-  	height: 100%;
+    height: calc(100% - 49px);
+    overflow: hidden;
   }
 
   .blockinfo {
@@ -63,5 +65,10 @@
     padding: 5px;
     border-radius: 6px;
     background-color: #fff;
+  }
+
+  .bottom {
+    height: 1px;
+    width: 100%;
   }
 </style>

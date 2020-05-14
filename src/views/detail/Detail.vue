@@ -4,7 +4,7 @@
     <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll">
       <detail-swiper :topImages="topImages" @swiperload="swiperload"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
-      <detail-comment ref="comment" :detailComment="detailComment"></detail-comment>
+      <detail-comment ref="comment" :detailComment="detailComment" @goRate="goRates"></detail-comment>
       <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info :detailInfo="detailInfo" @imgLoad="imageLoad"></detail-goods-info>
       <detail-param-info ref="param" :detailPrams="detailParams"></detail-param-info>
@@ -174,6 +174,10 @@
           }, 1500); */
           this.$toast.show(data);
         });
+      },
+      // 进入评论页面
+      goRates() {
+        this.$router.push('/rate/'+this.iid)
       }
     },
     destroyed() {

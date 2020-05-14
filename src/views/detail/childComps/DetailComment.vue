@@ -2,7 +2,7 @@
   <div class="detail-comment">
     <a class="head">
       <span  class="head-title">买家评价 {{detailComment.cRate}} | 销量 {{detailComment.sales}}</span>
-      <span  class="head-more"><img src="../../../assets/img/detail/more.png"></span>
+      <span  class="head-more" @click="goRate"><img src="../../../assets/img/detail/more.png"></span>
     </a>
     <div class="tags">
       <span class="tags-item" :class="{negative: item.emotion === 'negative'}" v-for="(item, index) in detailComment.rateTags" :key="index">{{ item.value }} ({{ item.num }})</span>
@@ -46,6 +46,11 @@
       formatTime(value) {
         let mydate = new Date(value*1000);
         return formatDate(mydate, 'yyyy-MM-dd')
+      }
+    },
+    methods: {
+      goRate() {
+        this.$emit('goRate');
       }
     }
   }

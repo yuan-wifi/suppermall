@@ -8,6 +8,7 @@ const Category = () => import('../views/category/Category')
 const Cart = () => import('../views/cart/Cart')
 const Profile = () => import('../views/profile/Profile')
 const Detail = () => import('../views/detail/Detail')
+const Rate = () => import('../views/rate/Rate')
 
 const routes = [
   {
@@ -33,6 +34,13 @@ const routes = [
   {
     path: '/detail/:iid',
     component: Detail
+  },
+  {
+    path: '/rate/:iid',
+    component: Rate,
+    meta: {
+      title: '所有评价'
+    }
   }
 ]
 

@@ -1,6 +1,6 @@
 <template>
   <div class="detail-nav-bar">
-    <nav-bar>
+    <nav-bar class="dnb">
       <div slot="left" @click="backClick" class="item">
         <img src="~assets/img/common/back.svg" class="back">
       </div>
@@ -53,6 +53,10 @@
 </script>
 
 <style scoped>
+  .dnb {
+    border-bottom: 1px solid #EFEFEF;
+  }
+
   .item {
     display: flex;
     align-items: center;
