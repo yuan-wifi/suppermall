@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <home-nav-bar :searchkey="hotWordkey"></home-nav-bar>
+    <home-nav-bar :searchkey="hotWordkey" @showSearch="showSearch"></home-nav-bar>
     <tab-control class="tab-control tabFixed" v-show="isTabFixed" :titles="['流行','新款','精选']" @tabClick="getGoods" ref="tabControl2"></tab-control>
     <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll" @pullingUp="loadMoreData">
       <home-swiper :banners="banners" @imageload="swiperLoad"></home-swiper>
