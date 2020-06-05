@@ -56,11 +56,11 @@
   }
 
   .c-item p {
-      font-size: 12px;
-      color: #666666;
-      text-align: center;
-      line-height: 19px;
-      margin-top: 8px;
+    font-size: 12px;
+    color: #666666;
+    text-align: center;
+    line-height: 19px;
+    margin-top: 8px;
   }
 
 </style>

@@ -21,7 +21,7 @@ const getters = {
 
 const mutations = {
   addCounter(state, payload) {
-    if(payload.count < 99)payload.count++;
+    if(payload.count < 99) payload.count++;
   },
   reduceCounter(state, payload) {
     if(payload.count > 1) payload.count--;

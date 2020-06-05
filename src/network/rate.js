@@ -1,13 +1,13 @@
-import { rateData, rateBaseInfo } from './rateData/ratedata.js'
+import {request} from './request.js'
 
 export function getRateData() {
-  return new Promise((reslove, reject) => {
-    reslove(rateData.data)
-  });
+  return request({
+     url: '/rate/rateData'
+  })
 }
 
 export function getRateBaseInfo(){
-  return new Promise((reslove, reject) => {
-    reslove(rateBaseInfo)
-  });
+  return request({
+     url: '/rate/rateBaseInfo'
+  })
 }

@@ -71,7 +71,6 @@
       this.getDetail( this.$route.params.iid)
       // 获取推荐商品
       this.getRecommend();
-      console.log(this.$store)
     },
     mixins: [imageMixin, backTopMixin],
     methods: {

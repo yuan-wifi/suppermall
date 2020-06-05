@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index.js'
 import toast from 'components/common/toast'
+import search from 'components/common/search'
 import fastclick from 'fastclick'
 
 
@@ -10,6 +11,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$buds = new Vue();
 Vue.use(toast);
+//Vue.use(search);
 
 fastclick.attach(document.body);
 
@@ -41,4 +43,11 @@ function getBrowserInterfaceSize() {
     }
 }
 
-document.querySelector('body').style.height = getBrowserInterfaceSize().pageHeight + 'px';
+function changeHeight()
+{
+ document.querySelector('body').style.height = getBrowserInterfaceSize().pageHeight + 'px';
+}
+
+changeHeight();
+
+window.onresize = changeHeight;

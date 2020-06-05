@@ -1,13 +1,13 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav">
-      <div  slot="center">购物街</div>
-    </nav-bar>
+    <home-nav-bar :searchkey="hotWordkey"></home-nav-bar>
     <tab-control class="tab-control tabFixed" v-show="isTabFixed" :titles="['流行','新款','精选']" @tabClick="getGoods" ref="tabControl2"></tab-control>
     <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll" @pullingUp="loadMoreData">
       <home-swiper :banners="banners" @imageload="swiperLoad"></home-swiper>
-      <recommend-view :recommends="recommend"></recommend-view>
-      <feature-view></feature-view>
+      <hot-category :category="hotCategory" ></hot-category>
+      <normal-category :category="normalCategory" @imageload="imageLoad"></normal-category>
+<!--      <recommend-view :recommends="recommend"></recommend-view>
+      <feature-view></feature-view> -->
       <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="getGoods" ref="tabControl"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
@@ -16,25 +16,30 @@
 </template>
 
 <script>
-  import NavBar from 'components/common/navbar/NavBar.vue'
   import TabControl from 'components/content/tabControl/TabControl.vue'
   import GoodsList from 'components/content/goods/GoodsList.vue'
   import Scroll from 'components/common/scroll/Scroll.vue'
   import BackTop from 'components/content/backTop/BackTop.vue'
 
+  import HotCategory from './childComps/HotCategory.vue'
+  import NormalCategory from './childComps/NormalCategory.vue'
+  import HomeNavBar from './childComps/HomeNavBar.vue'
   import HomeSwiper from './childComps/HomeSwiper.vue'
   import RecommendView from './childComps/RecommendView.vue'
   import FeatureView from './childComps/FeatureView.vue'
 
-  import { getHomeMultidata, getHomeGoods } from 'network/home.js'
+  import { getHomeMultidata, getHomeGoods, getHomeCategory } from 'network/home.js'
   import { debounce } from 'common/utils.js'
   import { imageMixin } from 'common/mixin.js'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Home',
     components: {
-      NavBar,
+      HomeNavBar,
       HomeSwiper,
+      HotCategory,
+      NormalCategory,
       RecommendView,
       FeatureView,
       TabControl,
@@ -55,13 +60,18 @@
         isShowBackTop: false,
         tabOffsetTop: 0,
         isTabFixed: false,
-        saveY: 0
+        saveY: 0,
+        hotCategory: [],
+        normalCategory: []
       }
     },
     computed:{
       showGoods() {
         return this.goods[this.currentType].list;
-      }
+      },
+      ...mapGetters('search', {
+        hotWordkey: 'hotWordkey'
+      })
     },
     created() {
       // 1.请求多个数据
@@ -71,15 +81,9 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
-    },
-    mounted() {
-/*      let refresh = debounce(this.$refs.scroll.refresh, 500);
 
-      this.scrollItemListener = () => {
-        //刷新scroll的高度
-        refresh();
-      }
-      this.$buds.$on("imgloaddown", this.scrollItemListener ); */
+      // 3.请求首页分类数据
+      this.getHomeCtg();
     },
     mixins: [imageMixin],
     activated() {
@@ -112,6 +116,15 @@
           this.$refs.scroll.finishPullUp();
           this.$refs.scroll.refresh();
         })
+      },
+      // 请求首页分类数据
+      getHomeCtg() {
+        getHomeCategory().then(res => {
+          if(res != undefined) {
+            this.hotCategory.push(...res.hot.list);
+            this.normalCategory.push(...res.normal.list);
+          }
+        });
       },
 
       /**
@@ -152,6 +165,14 @@
         // 获取tab-control的offsettop
         // $el可以得到组件的dom
         this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
+      },
+      // 显示搜索功能
+      showSearch () {
+        this.$store.commit('search/setIsshow');
+      },
+      // 热门图片加载完毕
+      imageLoad () {
+        debounce(this.$refs.scroll.refresh, 200)();
       }
 
     }
@@ -163,17 +184,6 @@
     position: relative;
     height: 100%;
     width: 100%;
-   /* padding: 44px 0 49px; */
-  }
-
-  .home-nav {
-    background-color: var(--color-tint);
-    color: #fff;
-/*    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10; */
   }
 
   .tabFixed {
@@ -183,16 +193,10 @@
   .content {
     width: 100%;
     position: absolute;
-    /* px-to-viewport-ignore-next */
-    top: 44px;/* px-to-viewport-ignore */
-    bottom: 49px; /* px-to-viewport-ignore */
+    top: 45px;
+    bottom: 49px;
     left: 0;
     right: 0;
     overflow: hidden;
   }
-
-  /*.content {
-    height: calc(100% - 93px);
-    margin-top: 44px;
-  }*/
 </style>

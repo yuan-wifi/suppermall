@@ -1,23 +1,27 @@
 <template>
-  <div class="category">
-    <scroll class="content c-category">
-      <category-detail ref="ccategory"
-                       :categoryData="categoryData"
-                       @categoryClick="categoryClick">
-      </category-detail>
-    </scroll>
-    <div class="c-details">
-      <tab-control class="tab-control1 tabFixed" style="z-index:10;" v-show="isTabFixed" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl2"></tab-control>
-      <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll">
-        <category-cate :itemCategory="currentCategory" @imageLoad="imgLoad"></category-cate>
-        <tab-control class="tab-control1" v-if="showGoods.length > 0" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl"></tab-control>
-        <goods-list :goods="showGoods" ref="goods" v-if="showGoods.length > 0" bgcolor="#fff"></goods-list>
+  <div >
+    <category-nav-bar :searchkey="hotWordkey"></category-nav-bar>
+    <div class="category">
+      <scroll class="content c-category">
+        <category-detail ref="ccategory"
+                         :categoryData="categoryData"
+                         @categoryClick="categoryClick">
+        </category-detail>
       </scroll>
+      <div class="c-details">
+        <tab-control class="tab-control1 tabFixed" style="z-index:10;" v-show="isTabFixed" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl2"></tab-control>
+        <scroll class="content" :probe-type="3" ref="scroll" @scroll="contentScroll">
+          <category-cate :itemCategory="currentCategory" @imageLoad="imgLoad"></category-cate>
+          <tab-control class="tab-control1" v-if="showGoods.length > 0" :titles="['综合','销量','新品']" @tabClick="getGoods" ref="tabControl"></tab-control>
+          <goods-list :goods="showGoods" ref="goods" v-if="showGoods.length > 0" bgcolor="#fff"></goods-list>
+        </scroll>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import CategoryNavBar from './childComps/CategoryNavBar.vue'
   import CategoryDetail from './childComps/CategoryDetail.vue'
   import CategoryCate from'./childComps/CategoryCate.vue'
   import Scroll from 'components/common/scroll/Scroll.vue'
@@ -27,6 +31,7 @@
   import { getCategory, getItemCateData, getItemData } from 'network/category.js'
   import { debounce } from 'common/utils.js'
   import { imageMixin, tabControlMixin } from 'common/mixin.js'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Category',
@@ -50,6 +55,7 @@
     },
     mixins: [imageMixin, tabControlMixin],
     components: {
+      CategoryNavBar,
       CategoryDetail,
       CategoryCate,
       Scroll,
@@ -81,7 +87,10 @@
       },
       currentCategory() {
         return this.itemdataCate[this.currentKey];
-      }
+      },
+      ...mapGetters('search', {
+        hotWordkey: 'hotWordkey'
+      })
     },
     methods: {
       /**
@@ -162,6 +171,7 @@
           that.tabOffsetTop = that.$refs.tabControl.$el.offsetTop;
         }, 200)();
       },
+
     }
   }
 </script>
@@ -173,7 +183,7 @@
   }
 
   .content {
-    height: calc(100vh - 49px);
+    height: calc(100vh - 49px - 44px);
     overflow: hidden;
   }
 
@@ -184,6 +194,7 @@
   .c-details {
     flex: 1;
     position: relative;
+    margin-top: 1px;
   }
 
   .tab-control1 {
@@ -192,7 +203,7 @@
 
   .tabFixed {
     position: absolute;
-    top: 0 ;
+    top: -1px;
     left: 0;
     bottom: 0;
   }

@@ -2,7 +2,7 @@
   <div class="cart">
     <nav-bar class="title">
       <div slot="left" @click="backClick" class="content-item">
-        <img src="~assets/img/common/back.svg" class="content">
+        <img src="~assets/img/common/back.png" class="content">
       </div>
       <div slot="center" >购物车({{length}})</div>
     </nav-bar>

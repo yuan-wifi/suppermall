@@ -1,15 +1,17 @@
-import { getDetailData } from './detailData/detailData.js'
-import { recommends } from './detailData/recommends.js'
+import {request} from './request.js'
 
 export function getDetail(iid) {
-  return new Promise(function(reslove,reject){
-     reslove(getDetailData(iid))  //状态由等待变为成功，传的参数作为then函数中成功函数的实参
+  return request({
+    url: '/detail/detailData',
+    params: {
+      iid
+    }
   })
 }
 
 export function getRecommends() {
-  return new Promise(function(reslove, reject) {
-    reslove(recommends.data)
+  return request({
+    url: '/detail/recommends'
   })
 }
 

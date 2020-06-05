@@ -20,7 +20,7 @@
         <div class="rate-content-body">{{item.content}}</div>
         <ul class="rate-content-img">
           <li class="rate-content-img-item" v-for="(img, iindex) in item.images" :key="iindex">
-            <img :src="img"/>
+            <img :src="img" @click="previewImg(item.images, iindex)" @load="imgload"/>
           </li>
         </ul>
       </div>
@@ -45,12 +45,28 @@
         }
       }
     },
+    data () {
+      return {
+        imgSrc: [],
+        showPre: false
+      }
+    },
     filters: {
       convertTime(value) {
         let date = new Date(value*1000)
         return formatDate(date,'yyyy年MM月dd日')
       }
-    }
+    },
+    methods: {
+      // 显示图片预览
+      previewImg(imglist, index) {
+        this.$emit('preview',imglist,index);
+      },
+      // 图片加载完毕事件
+      imgload() {
+        this.$emit('rateImgLoad');
+      }
+    },
   }
 </script>
 

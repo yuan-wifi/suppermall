@@ -26,3 +26,19 @@ export function formatDate(date, fmt) {
   }
   return fmt;
 }
+
+export function getHourMinuteSecond(num = 0) {
+  let count = parseInt(num);
+  let [hour, minute, second] = [0, 0, 0];
+  if(count) {
+    hour = parseInt(count  / 3600);
+    minute = parseInt(count % 3600 / 60);
+    second = count - hour * 3600 - minute * 60;
+  }
+  
+  return {
+    hour: hour > 10 ? hour + '' : '0' + hour,
+    minute: minute > 10 ? minute + '' : '0' + minute,
+    second: second > 10 ? second + '' : '0' + second
+  }
+}

@@ -1,7 +1,9 @@
 import { debounce } from './utils.js'
 import BackTop from 'components/content/backTop/BackTop.vue'
 import TabControl from 'components/content/tabControl/TabControl.vue'
+import NavBar from 'components/common/navbar/NavBar.vue'
 
+// 图片加载完 刷新事件的mixin
 export const imageMixin = {
   data() {
     return {
@@ -19,6 +21,7 @@ export const imageMixin = {
   }
 }
 
+// 返回顶部的mixin
 export const backTopMixin = {
   data() {
     return {
@@ -40,6 +43,7 @@ export const backTopMixin = {
   }
 }
 
+// 固定控制条的mixin
 export const tabControlMixin = {
   data () {
     return {
@@ -53,6 +57,24 @@ export const tabControlMixin = {
   methods: {
     fixedTab(position) {
       this.isTabFixed = -position.y > this.tabOffsetTop;
+    }
+  }
+}
+
+// 显示搜索header的mixin
+export const searchHeaderMixin = {
+  props: {
+    searchkey: {
+      type: String,
+      default: '上衣'
+    }
+  },
+  components: {
+    NavBar
+  },
+  methods: {
+    goSearch() {
+      this.$emit('showSearch');
     }
   }
 }

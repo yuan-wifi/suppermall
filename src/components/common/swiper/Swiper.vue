@@ -32,6 +32,14 @@
       showIndicator: {
         type: Boolean,
         default: true
+      },
+      isScroll: {
+        type: Boolean,
+        default: true
+      },
+      index: {
+        type: Number,
+        default: 0
       }
     },
     data: function () {
@@ -40,7 +48,7 @@
         totalWidth: 0, //swiper的宽度
         swiperStyle: {}, //swiper样式
         currentIndex: 1, //当前的index
-        scrolling: false, //是否正在滚动
+        scrolling: false, //是否正在滚动,
       }
     },
     mounted: function () {
@@ -49,7 +57,11 @@
         this.handleDom();
 
         // 2.开启定时器
-        this.startTimer();
+        if(this.index > 0) {
+          this.changeItem(this.index);
+        } else {
+          if(this.isScroll) this.startTimer();
+        }
       },200)
     },
     methods: {
@@ -180,7 +192,7 @@
         this.scrollContent(-this.currentIndex * this.totalWidth);
 
         //移动完成后重新开启定时器
-        this.startTimer();
+        if(this.isScroll) this.startTimer();
       },
 
       /**
@@ -203,7 +215,7 @@
         this.scrollContent(-this.currentIndex * this.totalWidth);
 
         // 3.添加定时器
-        this.startTimer();
+        if(this.isScroll) this.startTimer();
       }
     }
   }
