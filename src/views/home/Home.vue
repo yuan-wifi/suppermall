@@ -168,7 +168,7 @@
       },
       // 显示搜索功能
       showSearch () {
-        this.$store.commit('search/setIsshow');
+        this.$store.commit('search/setIsshow', true);
       },
       // 热门图片加载完毕
       imageLoad () {

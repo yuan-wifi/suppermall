@@ -9,6 +9,7 @@ const Cart = () => import('../views/cart/Cart')
 const Profile = () => import('../views/profile/Profile')
 const Detail = () => import('../views/detail/Detail')
 const Rate = () => import('../views/rate/Rate')
+const SearchResult = () => import('../views/search/Search')
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
     meta: {
       title: '所有评价'
     }
+  },
+  {
+    path: '/sr',
+    name: 'sr',
+    component: SearchResult
   }
 ]
 

@@ -1,10 +1,10 @@
 <template>
-  <nav-bar class="category-nav">
+  <nav-bar class="common-nav">
     <div slot="left" class="item" @click="goBack">
       <img class="back" src="~assets/img/common/back.svg">
     </div>
     <div slot="center" class="item">
-      <input class="search" :placeholder="searchkey"  @click="showSearch">
+      <input class="search" :placeholder="searchkey" :value="searchKey"  @click="showSearch">
     </div>
     <div slot="right" class="item" @click="goCart">
       <img class="cart" src="~assets/img/common/cart.png">
@@ -16,12 +16,19 @@
   import { searchHeaderMixin } from 'common/mixin.js'
 
   export default {
-    name: 'CategoryNavBar',
+    name: 'CommonNavBar',
     mixins: [searchHeaderMixin],
+    props: {
+      searchKey: {
+        type: String,
+        default: ''
+      }
+    },
     methods: {
       // 进入分类
       goBack() {
         this.$router.go(-1);
+        this.$store.commit('search/setIsshow', false);
       },
       // 进入购物车
       goCart() {
@@ -29,18 +36,18 @@
       },
       // 显示搜索功能
       showSearch () {
-        this.$store.commit('search/setIsshow');
+        this.$store.commit('search/setIsshow', true);
       },
     }
   }
 </script>
 
 <style scoped>
-  .category-nav {
+  .common-nav {
     background-color: #fff;
   }
 
-  .category-nav .item {
+  .common-nav .item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +61,7 @@
     height: 30px;
     border-radius: 3px;
     border: none;
-    font-size: 12px;
+    font-size: 14px;
     background: #eee url('~assets/img/home/search.png') no-repeat 7.5px center;
     background-size: 15px auto;
     outline: 0;

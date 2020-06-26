@@ -1,6 +1,6 @@
 <template>
   <div >
-    <category-nav-bar :searchkey="hotWordkey"></category-nav-bar>
+    <common-nav-bar :searchkey="hotWordkey"></common-nav-bar>
     <div class="category">
       <scroll class="content c-category">
         <category-detail ref="ccategory"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import CategoryNavBar from './childComps/CategoryNavBar.vue'
+  import CommonNavBar from 'components/content/commonNavBar/CommonNavBar.vue'
   import CategoryDetail from './childComps/CategoryDetail.vue'
   import CategoryCate from'./childComps/CategoryCate.vue'
   import Scroll from 'components/common/scroll/Scroll.vue'
@@ -55,7 +55,7 @@
     },
     mixins: [imageMixin, tabControlMixin],
     components: {
-      CategoryNavBar,
+      CommonNavBar,
       CategoryDetail,
       CategoryCate,
       Scroll,

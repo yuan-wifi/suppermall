@@ -24,7 +24,7 @@ const mutations = {
     state.hotWord = payload;
   },
   setIsshow(state, payload) {
-    state.isshow = !state.isshow;
+    state.isshow = Boolean(payload);
   }
 }
 

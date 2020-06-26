@@ -5,7 +5,7 @@
         <img class="back" src="~assets/img/common/back.svg">
       </div>
       <div slot="center" class="item">
-        <input ref="inputs" class="search" :placeholder="hotWordkey">
+        <input ref="inputs" class="search" v-model="keyword" :placeholder="hotWordkey">
       </div>
       <div slot="right" class="item" @click="search">
         搜索
@@ -55,7 +55,8 @@
     },
     data() {
       return {
-        historyList: []
+        historyList: [],
+        keyword: ''
       }
     },
     created() {
@@ -100,7 +101,7 @@
        */
       // 关闭搜索界面
       goBack() {
-        this.$store.commit('search/setIsshow');
+        this.$store.commit('search/setIsshow', false);
       },
       // 聚焦输入框
       focusInput() {
@@ -110,8 +111,10 @@
       },
       // 搜索事件
       search() {
-        console.log('sss')
-        //this.$router.push('');
+        let key = this.keyword !== '' ? this.keyword : this.hotWordkey;
+        //this.$router.push('/sr?key='+key);
+        this.$router.push({name: 'sr', query: {key: key}});
+        this.goBack();
       }
     }
   }
