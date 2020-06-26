@@ -122,8 +122,7 @@
       confirmPrice(min, max) {
         this.minPrice = min || 0;
         this.maxPrice = max || 10000000;
-        this.goodsFilter.splice(0);
-        this.goodsFilter.push(...this.goods[this.currentType].list.filter((item) => item.price > this.minPrice && item.price < this.maxPrice ));
+        this.goodsFilter.splice(0, this.goodsFilter.length - 1, ...this.goods[this.currentType].list.filter(item => item.price > this.minPrice && item.price < this.maxPrice));
         this.isActive = false;
         this.isFilter = true;
         this.$refs.scroll.scrollTo(0, 0, 0);
